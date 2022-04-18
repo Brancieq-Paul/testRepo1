@@ -2,21 +2,29 @@ name: Receive and push
 on: push
 
 jobs:
-  repo_copy:
+  repo_cp:
     name: Copieur de repo
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
 
-    - name: Push test files
-      uses: dmnemec/copy_file_to_another_repo_action@main
-      env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+    - name: List files
+      run: ls
+
+    - name: Checkout main
+      uses: actions/checkout@v3
       with:
-        source_file: './'
-        destination_repo: 'Brancieq-Paul/testRepo2'
-        user_email: 'action@email.com'
-        user_name: 'CICDBot'
-        destination_branch: main
+        repository: Brancieq-Paul/testRepo2
+        path: testRepo2
+        token: ${{ secrets.API_TOKEN_GITHUB }}
+
+    - name: Copy content
+      run: cp *.txt ./testRepo1/
+
+    - name: List files principal
+      run: ls testRepo2/
+
+    - name: Push into principal
+      run: cd testRepo2/ && git remote set-url origin ${{ secrets.API_TOKEN_GITHUB }}@github.com:Brancieq-Paul/testRepo2.git && git config --global user.email "you@example.com" && git config --global user.name "Your Name" && git add --all && git commit -m "Complete feature 1 !" && git push
