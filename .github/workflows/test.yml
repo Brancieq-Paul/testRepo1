@@ -21,7 +21,7 @@ jobs:
         token: ${{ secrets.API_TOKEN_GITHUB }}
 
     - name: Copy content
-      run: cp *.txt ./testRepo1/
+      run: cp *.txt ./testRepo2/
 
     - name: List files principal
       run: ls testRepo2/
