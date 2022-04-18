@@ -1,0 +1,20 @@
+name: Receive and push
+on: push
+
+jobs:
+  repo_copy:
+    name: Copieur de repo
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Push test files
+      uses: dmnemec/copy_file_to_another_repo_action@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        destination_repo: 'Brancieq-Paul/testRepo2@dev'
+        user_email: 'action@email.com'
+        user_name: 'CICDBot'
