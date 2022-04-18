@@ -14,17 +14,13 @@ jobs:
       run: ls
 
     - name: Checkout main
-      uses: actions/checkout@v3
+      uses: cpina/github-action-push-to-another-repository@main
+      env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        repository: Brancieq-Paul/testRepo2
-        path: testRepo2
-        token: ${{ secrets.API_TOKEN_GITHUB }}
-
-    - name: Copy content
-      run: cp *.txt ./testRepo2/
-
-    - name: List files principal
-      run: ls testRepo2/
-
-    - name: Push into principal
-      run: cd testRepo2/ && git remote set-url origin ${{ secrets.API_TOKEN_GITHUB }}@github.com:Brancieq-Paul/testRepo2.git && git config --global user.email "you@example.com" && git config --global user.name "Your Name" && git add --all && git commit -m "Complete feature 1 !" && git push
+        source-directory: './'
+        destination-github-username: 'Brancieq-Paul'
+        destination-repository-name: 'testRepo2'
+        user-email: test@email.com
+        target-branch: dev
+        commit-message: $REPOSITORY_URL@commit
