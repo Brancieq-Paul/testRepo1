@@ -22,5 +22,5 @@ jobs:
         destination-github-username: 'Brancieq-Paul'
         destination-repository-name: 'testRepo2'
         user-email: test@email.com
-        target-branch: dev
+        target-branch: main
         commit-message: $REPOSITORY_URL@commit
