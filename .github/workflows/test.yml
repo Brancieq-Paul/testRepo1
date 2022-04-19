@@ -24,5 +24,6 @@ jobs:
         user-email: test@email.com
         target-branch: main
         commit-message: $REPOSITORY_URL@commit
+  
     - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
