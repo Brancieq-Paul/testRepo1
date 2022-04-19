@@ -1,8 +1,6 @@
 name: Receive and push
 on: push
 
-on: push
-
 jobs:
     replicate-file:
         runs-on: ubuntu-latest
