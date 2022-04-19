@@ -1,26 +1,35 @@
 name: Receive and push
 on: push
 
+on: push
+
 jobs:
-  repo_cp:
-    name: Copieur de repo
-    runs-on: ubuntu-latest
+    replicate-file:
+        runs-on: ubuntu-latest
+        name: Replicate File
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+        steps:
+        - name: Checkout Project A
+          uses: actions/checkout@v2
+          with:
+            path: ./testRepo1
 
-    - name: List files
-      run: ls
+        - name: Checkout Project B
+          uses: actions/checkout@master
+          with: 
+            repository: Brancieq-Paul/testRepo2
+            token: ${{ secrets.API_TOKEN_GITHUB }}
+            path: ./testRepo2
 
-    - name: Checkout main
-      uses: cpina/github-action-push-to-another-repository@main
-      env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-      with:
-        source-directory: './'
-        destination-github-username: 'Brancieq-Paul'
-        destination-repository-name: 'testRepo2'
-        user-email: test@email.com
-        target-branch: main
-        commit-message: $REPOSITORY_URL@commit
+        - name: Copy/Create file
+          run: |
+            cp -r ./testRepo1/*.txt ./testRepo2/
+
+        - name: Push Project B
+          run: |
+            cd ./testRepo2
+            git add .
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git commit -am "File Replicated from Project A"
+            git push
